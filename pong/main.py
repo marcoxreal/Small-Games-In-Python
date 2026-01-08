@@ -29,6 +29,9 @@ paddle2.penup()
 paddle2.goto(350, 0)
 
 # Ball
+START_SPEED = 0.1
+SPEED_INCREMENT = 0.005
+
 ball = turtle.Turtle()
 ball.speed(0)
 ball.shape("square")
@@ -36,8 +39,8 @@ ball.color("white")
 ball.shapesize(stretch_wid=1, stretch_len=1)
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.1
-ball.dy = 0.1
+ball.dx = START_SPEED
+ball.dy = START_SPEED
 
 # Pen
 pen = turtle.Turtle()
@@ -96,14 +99,16 @@ while True:
 
     if ball.xcor() > 390:
         ball.goto(0, 0)
-        ball.dx *= -1
+        ball.dx = -START_SPEED
+        ball.dy = START_SPEED
         score1 += 1
         pen.clear()
         pen.write("Player 1: {}   Player 2: {}".format(score1, score2), align="center", font=("Courier", 24, "normal"))
 
     if ball.xcor() < -390:
         ball.goto(0, 0)
-        ball.dx *= -1
+        ball.dx = START_SPEED
+        ball.dy = START_SPEED
         score2 += 1
         pen.clear()
         pen.write("Player 1: {}   Player 2: {}".format(score1, score2), align="center", font=("Courier", 24, "normal"))
@@ -113,6 +118,12 @@ while True:
         ball.setx(340)
         ball.dx *= -1
 
+        ball.dx += SPEED_INCREMENT if ball.dx > 0 else -SPEED_INCREMENT
+        ball.dy += SPEED_INCREMENT if ball.dy > 0 else -SPEED_INCREMENT
+
     if ball.xcor() < -340 and ball.xcor() > -350 and (ball.ycor() < paddle1.ycor() + 40 and ball.ycor() > paddle1.ycor() - 40):
         ball.setx(-340)
         ball.dx *= -1
+
+        ball.dx += SPEED_INCREMENT if ball.dx > 0 else -SPEED_INCREMENT
+        ball.dy += SPEED_INCREMENT if ball.dy > 0 else -SPEED_INCREMENT
